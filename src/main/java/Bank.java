@@ -18,7 +18,7 @@ public class Bank {
         accounts.put(accNumber, acc);
     }
 
-    public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
+    public /*synchronized*/ boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
             throws InterruptedException {
         Thread.sleep(1000);
         return random.nextBoolean();
@@ -30,10 +30,10 @@ public class Bank {
      * метод isFraud. Если возвращается true, то делается блокировка счетов (как – на ваше
      * усмотрение)
      */
-    public void /*synchronized*/ transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
+    public synchronized void  transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
         Account account1 = accounts.get(fromAccountNum);
         Account account2 = accounts.get(toAccountNum);
-        if (account1.getMoney() > 50000) {
+        if (amount > 50000) {
             boolean isFr = isFraud(fromAccountNum, toAccountNum, amount);
             if (isFr == true) {
                 /*account1.getBlocked();*/
@@ -46,6 +46,10 @@ public class Bank {
             //System.out.println(account2.getMoney());
 
         }
+        System.out.println("///////////////////////////");
+        System.out.println(amount+" " +fromAccountNum+" "+ toAccountNum);
+        System.out.println(account1.getMoney());
+        System.out.println(account2.getMoney());
         System.out.println(this.getSumAllAccounts());
     }
 
